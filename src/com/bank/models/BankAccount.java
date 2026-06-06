@@ -17,39 +17,21 @@ public class BankAccount {
         System.out.println("------------------------------------------------");
     }
 
-    // Feature 2 (Customer): Cash-in
-    // Feature 3 (Admin): Add Funds
-    public void deposit(double amount, String role, String name,String mobileNum) {
-        if (role.equals("Customer")) {
-            if (amount > 0) {
-                balance += amount;
-                history.add("Cash-in: +P" + amount);
-                System.out.println("------------------------------------------------");
-                System.out.println("Cash-in successfully!\nYour balance: P" + balance);
-                System.out.println("------------------------------------------------");
-            } else {
-                System.out.println("------------------------------------------------");
-                System.out.println("Invalid amount.");
-                System.out.println("------------------------------------------------");
-            }
+    // Feature 2 (Customer): Deposit
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            history.add("Cash-in: +P" + amount);
+            System.out.println("------------------------------------------------");
+            System.out.println("Cash-in successfully!\nYour balance: P" + balance);
+            System.out.println("------------------------------------------------");
         } else {
-            if (amount > 0) {
-                balance += amount;
-                history.add("Admin Adjustment: +P" + amount);
-                System.out.println("------------------------------------------------");
-                System.out.println("\t\tP"+amount+" ADDED SUCCESSFULLY!");
-                System.out.println("Customer Name: " + name);
-                System.out.println("Mobile Number: " + mobileNum);
-                System.out.println("Updadated Balance: " + balance);
-                System.out.println("------------------------------------------------");
-            } else {
-                System.out.println("------------------------------------------------");
-                System.out.println("Invalid amount.");
-                System.out.println("------------------------------------------------");
-            }
-        }
+            System.out.println("------------------------------------------------");
+            System.out.println("Invalid amount.");
+            System.out.println("------------------------------------------------");
+        }        
     }
-
+    
     // Feature 3 (Customer): Transfer Money
     public void transferMoney(BankAccount targeAccount, double amount, String sender, String receiver) {
         if (amount > 0 && amount <= balance) {
