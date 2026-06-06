@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Admin extends Users{
 
-//    public BankAccount account;
+   public BankAccount account;
 
-    public Admin(int id, String mobileNum, int pin, String name, String address, double balance) {
-        super(id, mobileNum, pin, name, address, balance, "Admin");
+    public Admin(int id, String mobileNum, int pin, String name) {
+        super(id, mobileNum, pin, name);
     }
 
     // Viewing of All Accounts
