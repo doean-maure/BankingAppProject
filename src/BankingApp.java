@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class BankingApp {
     public static void main(String[] args) {
         List<Users> userList = List.of(
-                new Admin(0, "09068845641", 3392, "Pat Pilar", "Manila", 34000),
-                new Customer(1, "09239834413", 1423, "Den De Guzman", "Mandaluyong", 1700),
-                new Customer(3, "09997843277", 9628, "Gil Maure", "Makati", 1400));
+            new Admin(0, "09068845641", 3392, "Pat Pilar"),
+            new Customer(1, "09239834413", 1423, "Den De Guzman"),
+            new Customer(3, "09997843277", 9628, "Gil Maure")
+        );
 
         boolean cont = true;
 
@@ -51,7 +52,8 @@ public class BankingApp {
                             System.out.println("\t\t    CASH-IN");
                             System.out.println("------------------------------------------------");
                             System.out.print("Amount: ");
-                            currentCustomer.account.deposit(sc.nextDouble(),currentCustomer.getRole(),currentCustomer.getName(),currentCustomer.getMobileNum());
+                            double amountDeposit = sc.nextDouble();
+                            currentCustomer.account.deposit(amountDeposit);
                         } else if(choice == 3) { // Transfer Money
                             System.out.println("------------------------------------------------");
                             System.out.println("\t\tTRANSFER MONEY");
@@ -61,7 +63,7 @@ public class BankingApp {
                             boolean sameMobileNum = currentCustomer.getMobileNum().equals(receiverNum);
                             Customer validReceiver = null;
                             for (Users u : userList) {
-                                if (!sameMobileNum && u.getRole().equals("Customer") && u.getMobileNum().equals(receiverNum)) {
+                                if (!sameMobileNum && u.getMobileNum().equals(receiverNum)) {
                                     validReceiver = (Customer)u;
                                     break;
                                 }
@@ -79,7 +81,7 @@ public class BankingApp {
                             System.out.println("\t\tWITHDRAW MONEY");
                             System.out.println("------------------------------------------------");
                             System.out.print("Amount: ");
-                            currentCustomer.account.withdraw(sc.nextDouble(),currentCustomer.getRole(),currentCustomer.getName(),currentCustomer.getMobileNum());
+                            currentCustomer.account.withdraw(sc.nextDouble(),currentCustomer.getName(),currentCustomer.getMobileNum());
                         } else if(choice == 5) { // History
                             System.out.println("------------------------------------------------");
                             System.out.println("\t\tTRANSACTION HISTORY");
@@ -140,10 +142,11 @@ public class BankingApp {
                                         currentAdmin.viewSingleCustomer(targetCustomer);
                                     } else {
                                         System.out.print("Amount: ");
+                                        double amountAddFunds = sc.nextDouble();
                                         if (choice == 3) {
-                                            targetCustomer.account.deposit(sc.nextDouble(),currentAdmin.getRole(),targetCustomer.getName(),targetCustomer.getMobileNum());
-                                        } else { //
-                                            targetCustomer.account.withdraw(sc.nextDouble(),currentAdmin.getRole(),targetCustomer.getName(),targetCustomer.getMobileNum());
+                                            targetCustomer.account.deposit(amountAddFunds);
+                                        } else { 
+                                            targetCustomer.account.withdraw(sc.nextDouble(),targetCustomer.getName(),targetCustomer.getMobileNum());
                                         }
                                     }
                                 } else {
