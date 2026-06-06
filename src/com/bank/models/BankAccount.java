@@ -53,32 +53,16 @@ public class BankAccount {
     }
 
     // Feature 4 (Customer): Withdraw
-    // Feature 4 (Admin): Deduct Funds
-    public void withdraw(double amount, String role, String name, String mobileNum) {
-        if (role.equals("Customer")) {
-            if (amount > 0 && amount <= balance) {
-                balance -= amount;
-                history.add("Withdrew: -P" + amount);
-                System.out.println("------------------------------------------------");
-                System.out.println("Updadated Balance: P" + balance);
-                System.out.println("------------------------------------------------");
-            } else {
-                System.out.println("------------------------------------------------");
-                System.out.println("Insufficient funds or invalid amount.");
-                System.out.println("------------------------------------------------");
-            }
-        } else if (amount > 0 && amount <= balance) {
+    public void withdraw(double amount, String name, String mobileNum) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
-            history.add("Admin Adjustment: -P" + amount);
+            history.add("Withdrew: -P" + amount);
             System.out.println("------------------------------------------------");
-            System.out.println("\t\tP"+amount+" DEDUCTED SUCCESSFULLY!");
-            System.out.println("Customer Name: " + name);
-            System.out.println("Mobile Number: " + mobileNum);
             System.out.println("Updadated Balance: P" + balance);
             System.out.println("------------------------------------------------");
         } else {
             System.out.println("------------------------------------------------");
-            System.out.println("Invalid amount.");
+            System.out.println("Insufficient funds or invalid amount.");
             System.out.println("------------------------------------------------");
         }
     }
