@@ -66,24 +66,32 @@ public class BankingApp {
                                     System.out.println("------------------------------------------------");
                                     System.out.print("Mobile Number: ");
                                     String receiverNum = sc.next();
-                                    boolean sameMobileNum = currentCustomer.getMobileNum().equals(receiverNum);
-                                    Customer validReceiver = null;
 
-                                    for (Users u : userList) {
-                                        if (!sameMobileNum && u.getMobileNum().equals(receiverNum)) {
-                                            validReceiver = (Customer)u;
-                                            break;
+                                    if (isValidMobile(receiverNum)) {
+                                        boolean sameMobileNum = currentCustomer.getMobileNum().equals(receiverNum);
+                                        Customer validReceiver = null;
+
+                                        for (Users u : userList) {
+                                            if (!sameMobileNum && u.getMobileNum().equals(receiverNum)) {
+                                                validReceiver = (Customer)u;
+                                                break;
+                                            }
+                                        }
+
+                                        if (validReceiver != null) {
+                                            System.out.print("Amount: ");
+                                            currentCustomer.account.transferMoney(validReceiver.account,sc.nextDouble(),currentCustomer.getName(),validReceiver.getName());
+                                        } else if (sameMobileNum) {
+                                            System.out.println("------------------------------------------------");
+                                            System.out.println("Error: Enter different mobile number.");
+                                            System.out.println("------------------------------------------------");
+                                        }else {
+                                            System.out.println("------------------------------------------------");
+                                            System.out.println("Error: User not found.");
+                                            System.out.println("------------------------------------------------");
                                         }
                                     }
-
-                                    if (validReceiver != null) {
-                                        System.out.print("Amount: ");
-                                        currentCustomer.account.transferMoney(validReceiver.account,sc.nextDouble(),currentCustomer.getName(),validReceiver.getName());
-                                    } else {
-                                        System.out.println("------------------------------------------------");
-                                        System.out.println("Invalid Number");
-                                        System.out.println("------------------------------------------------");
-                                    }
+                                    
                                 } else if(choice == 4) { // Withdraw
                                     System.out.println("------------------------------------------------");
                                     System.out.println("\t\tWITHDRAW MONEY");
@@ -225,7 +233,7 @@ public class BankingApp {
             System.out.println("------------------------------------------------");
             return false;
         }
-        // throw new UnsupportedOperationException("Unimplemented method 'isValidMobile'");
+        
     }
 }
 
