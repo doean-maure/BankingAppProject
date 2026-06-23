@@ -225,7 +225,7 @@ public class BankingApp {
         }
 
         try {
-            Double.parseDouble(inputMobileNum);
+            Integer.parseInt(inputMobileNum);
             return true;
         } catch (NumberFormatException e) {
             System.out.println("------------------------------------------------");
