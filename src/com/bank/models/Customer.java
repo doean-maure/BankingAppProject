@@ -10,5 +10,10 @@ public class Customer extends Users {
         // New BankAccount
         this.account = new BankAccount(0);
     }
+
+
+    public void menu() {
+        System.out.println("\n1. Check Balance  2. Deposit  3. Transfer Money  4. Withdraw  5. History  6. Logout");
+    }
 }
 
