@@ -9,6 +9,11 @@ public class Admin extends Users{
     public Admin(int id, String mobileNum, int pin, String name) {
         super(id, mobileNum, pin, name);
     }
+    
+    //Menu 
+    public void menu() {
+        System.out.println("\n1. View All Balance   2. View Specific Account   3. Add Fund   4. Deduct Fund   5. Logout");
+    }
 
     // Viewing of All Accounts
     public void viewAllBalances(List<Users> userList) {
