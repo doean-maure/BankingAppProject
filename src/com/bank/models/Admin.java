@@ -16,27 +16,22 @@ public class Admin extends Users{
     }
 
     // Viewing of All Accounts
-    public void viewAllBalances(List<Users> userList) {
-        System.out.println("------------------------------------------------");
-        System.out.println("\t\tVIEW ALL BALANCES");
-        System.out.println("------------------------------------------------");
+    public void viewAll(List<Users> userList) {
+        System.out.println("CUSTOMER ACCOUNTS:\n");
         System.out.println("FULL NAME\tMOBILE NUMBERS\tBALANCE");
-        for (Users u : userList) {
-            if (u instanceof Customer) {
-                Customer c = (Customer) u;
-                System.out.println(c.name + "\t" + c.mobileNum + "\t" + c.account.balance);
+        
+        for (Users user : userList) {
+            if (user instanceof Customer) {
+                Customer customer = (Customer) user;
+                System.out.println(customer.name + "\t" + customer.mobileNum + "\t" + customer.account.balance);
             }
         }
-        System.out.println("------------------------------------------------");
     }
 
     // Viewing of Specific Account
-    public void viewSingleCustomer(Customer targetCustomer) {
-        System.out.println("------------------------------------------------");
-        System.out.println("\t\tACCOUNT RESULT");
-        System.out.println("------------------------------------------------");
+    public void view(Customer customer) {
+        System.out.println("ACCOUNT RESULT:\n");
         System.out.println("FULL NAME\tMOBILE NUMBERS\tBALANCE");
-        System.out.println(targetCustomer.name + "\t" + targetCustomer.mobileNum + "\t" + targetCustomer.account.balance);
-        System.out.println("------------------------------------------------");
+        System.out.println(customer.name + "\t" + customer.mobileNum + "\t" + customer.account.balance);
     }
 }
