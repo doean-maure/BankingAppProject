@@ -1,7 +1,7 @@
 package com.bank.models;
 import java.util.ArrayList;
 
-public class BankAccount {
+public abstract class BankAccount {
     public double balance;
     public ArrayList<String> history; //History log
 
