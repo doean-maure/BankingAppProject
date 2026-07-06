@@ -6,8 +6,9 @@ public abstract class BankAccount {
     protected double balance;
     public ArrayList<String> history; //History log
 
-    public BankAccount(double balance) {
-        this.balance = balance;
+    public BankAccount( String accountNumner, double initialBalance) {
+        this.accountNumber = accountNumner;
+        this.balance = initialBalance;
         this.history = new ArrayList<>();
         this.history.add("Account opened with P" + balance);
     }
