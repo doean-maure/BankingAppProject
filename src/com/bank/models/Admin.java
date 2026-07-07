@@ -33,11 +33,15 @@ public class Admin extends Users{
 
     // Viewing of Specific Account
     public void view(Customer customer) {
-        System.out.println("ACCOUNT RESULT:\n");
-        System.out.println("FULL NAME\tACCOUNT NUMBERS\t\tBALANCE");
+        System.out.println("\nACCOUNT RESULT:\n");
+        System.out.println("FULL NAME\tACCOUNT TYPE\t\tACCOUNT NUMBERS\t\tBALANCE");
         
         for (BankAccount acc : customer.getAccounts()) { 
-            System.out.println(customer.name + "\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+            if (acc instanceof SavingsAccount) {
+                System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+            } else {
+                System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+            }
         }
     }
 }
