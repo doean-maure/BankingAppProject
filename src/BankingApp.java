@@ -9,11 +9,25 @@ public class BankingApp {
     // Customer targetAccount;
     
     public static void main(String[] args) {
+        
+        
+        
         List<Users> userList = List.of(
             new Admin(0, "09068845641", 3392, "PAT PILAR"),
             new Customer(1, "09239834413", 1423, "DEN DEGUZMAN"),
-            new Customer(3, "09997843277", 9628, "GIL MAURE")
+            new Customer(2, "09997843277", 9628, "GIL MAURE")
         );
+
+         for (Users user : userList) {
+            if (user instanceof Customer) {
+               Customer customer = (Customer) user;
+                if (customer.getId() == 1) {
+                customer.addAccount(new SavingsAccount("202644131001", 1000.0));
+               } else {
+                customer.addAccount(new SavingsAccount("202632271002", 2000.0));
+               }
+            }
+         }
 
         boolean cont = true;
         boolean loggedIn = false;
@@ -27,11 +41,11 @@ public class BankingApp {
             Scanner sc = new Scanner(System.in);
             System.out.println("\nACCOUNT LOGIN\n");
             System.out.println("MOBILE NUMBER:");
-            String mobileInput = sc.next();
+            String mobileInput = "09068845641";
             
             try {      
                 System.out.println("PIN:");
-                int pinInput = sc.nextInt();
+                int pinInput = 3392;
                 
                 // Authenticate User
                 for (Users u : userList) { 
@@ -54,7 +68,7 @@ public class BankingApp {
             
             // User Logged In
             while (loggedIn) {
-
+                
                 // Scanner sc = new Scanner(System.in);
                 double amount = 0.0;
                 
@@ -69,26 +83,31 @@ public class BankingApp {
                             
                             switch (choice) {
                                 case 1:
-                                    currentCustomer.account.balance();
+                                    // currentCustomer.account.balance();
+                                    currentCustomer.getAccounts();
+                                    for (BankAccount acc : currentCustomer.getAccounts()) {
+                                        acc.balance();
+                                    }
+                                
                                     break;
                                 case 2:
                                     amount = amountInput(sc);
-                                    currentCustomer.account.deposit(amount);
+                                    // currentCustomer.account.deposit(amount);
                                     break;
                                 case 3:
                                     amount = amountInput(sc);
-                                    currentCustomer.account.withdraw(amount);
+                                    // currentCustomer.account.withdraw(amount);
                                     break;
                                 case 4:
                                     Customer targetAccount = service.searchAccount(sc, userList);
                                     try { 
-                                        currentCustomer.account.transferMoney(targetAccount.account, amount, targetAccount.getName(), currentCustomer.getName());
+                                        // currentCustomer.account.transferMoney(targetAccount.account, amount, targetAccount.getName(), currentCustomer.getName());
                                     }  catch (NullPointerException e) {
                                         System.out.println("\n***ACCOUNT UNAVAILABLE***\n");
                                     }
                                     break;
                                 case 5:
-                                    currentCustomer.account.showHistory(currentCustomer.getName(), currentCustomer.getMobileNum());
+                                    // currentCustomer.account.showHistory(currentCustomer.getName(), currentCustomer.getMobileNum());
                                     break;
                                 case 6:
                                     loggedIn = false;
@@ -114,11 +133,11 @@ public class BankingApp {
                                         break;
                                     case 3: 
                                         amount = amountInput(sc);
-                                        targetAccount.account.deposit(amount);   
+                                        // targetAccount.account.deposit(amount);   
                                         break;
                                     case 4:
                                         amount = amountInput(sc);
-                                        targetAccount.account.withdraw(amount);
+                                        // targetAccount.account.withdraw(amount);
                                         break;
                                 }
                             } catch (NullPointerException e) {
