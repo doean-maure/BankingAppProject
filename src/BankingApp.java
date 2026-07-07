@@ -22,9 +22,11 @@ public class BankingApp {
             if (user instanceof Customer) {
                Customer customer = (Customer) user;
                 if (customer.getId() == 1) {
-                customer.addAccount(new SavingsAccount("202644131001", 1000.0));
+                customer.addAccount(new SavingsAccount("1-202644131001", 1000.0));
+                customer.addAccount(new CheckingAccount("2-202644131001", 3000.0));
                } else {
-                customer.addAccount(new SavingsAccount("202632271002", 2000.0));
+                customer.addAccount(new SavingsAccount("1-202632271002", 2000.0));
+                customer.addAccount(new CheckingAccount("2-202632271002", 500.0));
                }
             }
          }
@@ -83,12 +85,10 @@ public class BankingApp {
                             
                             switch (choice) {
                                 case 1:
-                                    // currentCustomer.account.balance();
                                     currentCustomer.getAccounts();
-                                    for (BankAccount acc : currentCustomer.getAccounts()) {
-                                        acc.balance();
-                                    }
-                                
+                                        for (BankAccount acc : currentCustomer.getAccounts()) {
+                                            acc.balance();
+                                        }
                                     break;
                                 case 2:
                                     amount = amountInput(sc);
