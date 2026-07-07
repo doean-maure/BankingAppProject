@@ -12,18 +12,20 @@ public class Admin extends Users{
 
     // Viewing of All Accounts
     public void viewAll(List<Users> userList) {
-        System.out.println("CUSTOMER ACCOUNTS:\n");
-        System.out.println("FULL NAME\tACCOUNT NUMBERS\t\tBALANCE");
-        
+        System.out.println("\nCUSTOMER ACCOUNTS:\n");
+        System.out.println("FULL NAME\tACCOUNT TYPE\t\tACCOUNT NUMBERS\t\tBALANCE");
         for (Users user : userList) {
             if (user instanceof Customer) {
                 Customer customer = (Customer) user;
                 for (BankAccount acc : customer.getAccounts()) { 
-                    System.out.println(customer.name + "\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+                    if (acc instanceof SavingsAccount) {
+                        System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+                    } else {
+                        System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+                    }
                 }
             }
         }
-
         
     }
 
