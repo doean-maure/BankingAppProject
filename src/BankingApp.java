@@ -5,12 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BankingApp {
-
-    // Customer targetAccount;
-    
     public static void main(String[] args) {
-        
-        
         
         List<Users> userList = List.of(
             new Admin(0, "09068845641", 3392, "PAT PILAR"),
@@ -34,7 +29,6 @@ public class BankingApp {
         boolean cont = true;
         boolean loggedIn = false;
         Users authenticateUser = null;
-        
 
         BankingApp service = new BankingApp();
        
@@ -54,7 +48,6 @@ public class BankingApp {
                     if (u.getMobileNum().equals(mobileInput) && u.getPin() == pinInput) {
                         authenticateUser = u;
                         loggedIn = true;
-                        // cont = false;
                         break;
                     } 
                 }
@@ -71,7 +64,6 @@ public class BankingApp {
             // User Logged In
             while (loggedIn) {
                 
-                // Scanner sc = new Scanner(System.in);
                 double amount = 0.0;
                 
                 if (authenticateUser != null) {
