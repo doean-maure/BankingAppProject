@@ -17,11 +17,11 @@ public class BankingApp {
             if (user instanceof Customer) {
                Customer customer = (Customer) user;
                 if (customer.getId() == 1) {
-                customer.addAccount(new SavingsAccount("1-202644131001", 1000.0));
-                customer.addAccount(new CheckingAccount("2-202644131001", 3000.0));
+                customer.addAccount(new SavingsAccount("1-202644131001", 0));
+                customer.addAccount(new CheckingAccount("2-202644131001", 0));
                } else {
-                customer.addAccount(new SavingsAccount("1-202632271002", 2000.0));
-                customer.addAccount(new CheckingAccount("2-202632271002", 500.0));
+                customer.addAccount(new SavingsAccount("1-202632271002", 0));
+                customer.addAccount(new CheckingAccount("2-202632271002", 0));
                }
             }
          }
