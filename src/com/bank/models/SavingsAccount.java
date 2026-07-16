@@ -5,6 +5,8 @@ public class SavingsAccount extends BankAccount {
 
     public SavingsAccount(String accountNumner, double initialBalance) {
         super(accountNumner, initialBalance);
+
+        this.balance = MIN_BALANCE;
     }
 
     
