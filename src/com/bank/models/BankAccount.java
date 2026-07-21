@@ -17,33 +17,31 @@ public abstract class BankAccount {
     public String getAccountNumber() { return accountNumber; }
     public double getBalance() { return balance; }
 
-    public abstract boolean withdraw(double amount);
+    // public abstract boolean withdraw(double amount);
 
-
-    // Feature 1 (Customer): Check Balance
+    // Feature 1: Check Balance
     public abstract void balance();
 
-    // Feature 2 (Customer): Deposit
+    // Feature 2: Deposit
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
             history.add("Deposit: +P" + amount);
-            System.out.println("\nUPDATED BALANCE: P" + balance);
+            balance();
         } else {
             System.out.println("\n***INVALID AMOUNT***\n");
         }        
     }
      // Feature 4 (Customer): Withdraw
-    // public void withdraw(double amount) {
-    //     if (amount > 0 && amount <= balance) {
-    //         balance -= amount;
-    //         history.add("Withdrew: -P" + amount);
-    //         System.out.println("\nUPDATED BALANCE: P" + balance);
-    //     } else {
-    //         System.out.println("\n***INSUFFICIENT FUNDS.***\n");
-    //     }
-        
-    // }
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            history.add("Withdrew: -P" + amount);
+            balance();
+        } else {
+            System.out.println("\n***INSUFFICIENT FUNDS.***\n");
+        }
+    }
 
     // Feature 3 (Customer): Transfer Money
     public void transferMoney(BankAccount targetAccount, double amount, String receiver, String sender) {

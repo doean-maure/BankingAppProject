@@ -15,16 +15,4 @@ public class SavingsAccount extends BankAccount {
         System.out.println("\nSAVINGS ACCOUNT BALANCE: P" + balance);
     }
 
-    @Override
-    public boolean withdraw(double amount) {
-        try {
-             if (amount > 0 && amount <= balance) {
-                return true;
-            }
-        } catch (InputMismatchException e) {
-            // TODO: handle exception
-            System.out.println("\n***INSUFFICIENT FUNDS.***\n");
-        }
-        return false;
-    }
 }
