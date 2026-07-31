@@ -1,7 +1,5 @@
 package com.bank.models;
 
-import java.util.InputMismatchException;
-
 public class SavingsAccount extends BankAccount {
     private static final double MIN_BALANCE = 100.0;
 
