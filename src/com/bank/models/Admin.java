@@ -32,16 +32,45 @@ public class Admin extends Users{
     
 
     // Viewing of Specific Account
-    public void view(Customer customer) {
+    public void viewAcc(List<Users> userList, BankAccount targetAccount) {
+
         System.out.println("\nACCOUNT RESULT:\n");
         System.out.println("FULL NAME\tACCOUNT TYPE\t\tACCOUNT NUMBERS\t\tBALANCE");
+
+        for (Users users : userList) {
+            if (users instanceof Customer) {
+                Customer customer = ((Customer)users);
+                for (BankAccount account : customer.getAccounts()) {
+                    if (account.getAccountNumber().equals(targetAccount.getAccountNumber())) {
+                        if (account instanceof SavingsAccount) {
+                            System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance); 
+                        } else if (account instanceof CheckingAccount) {
+                            System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance);
+                        } else {
+                            System.out.println("\n***NO ACCOUNT FOUND.***\n");
+                        }
+                    }     
+                }
+
         
-        for (BankAccount acc : customer.getAccounts()) { 
-            if (acc instanceof SavingsAccount) {
-                System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
-            } else {
-                System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
-            }
+
+            
+
+                
+            } 
         }
+        
     }
+    // public void view(Customer customer) {
+    //     System.out.println("\nACCOUNT RESULT:\n");
+    //     System.out.println("FULL NAME\tACCOUNT TYPE\t\tACCOUNT NUMBERS\t\tBALANCE");
+        
+    //     for (BankAccount acc : customer.getAccounts()) { 
+    //         if (acc instanceof SavingsAccount) {
+    //             System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+    //         } else {
+    //             System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
+    //         }
+    //     }
+    // }
 }
