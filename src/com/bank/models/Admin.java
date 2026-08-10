@@ -51,26 +51,8 @@ public class Admin extends Users{
                         }
                     }     
                 }
-
-        
-
-            
-
-                
             } 
         }
         
     }
-    // public void view(Customer customer) {
-    //     System.out.println("\nACCOUNT RESULT:\n");
-    //     System.out.println("FULL NAME\tACCOUNT TYPE\t\tACCOUNT NUMBERS\t\tBALANCE");
-        
-    //     for (BankAccount acc : customer.getAccounts()) { 
-    //         if (acc instanceof SavingsAccount) {
-    //             System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
-    //         } else {
-    //             System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
-    //         }
-    //     }
-    // }
 }
