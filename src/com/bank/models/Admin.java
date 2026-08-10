@@ -45,7 +45,7 @@ public class Admin extends Users{
                         if (account instanceof SavingsAccount) {
                             System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance); 
                         } else if (account instanceof CheckingAccount) {
-                            System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance);
+                            System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance);
                         } else {
                             System.out.println("\n***NO ACCOUNT FOUND.***\n");
                         }
