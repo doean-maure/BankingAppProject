@@ -1,5 +1,7 @@
 package com.bank.models;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public abstract class BankAccount {
     private String accountNumber;
@@ -17,10 +19,21 @@ public abstract class BankAccount {
     public String getAccountNumber() { return accountNumber; }
     public double getBalance() { return balance; }
 
-    // public abstract boolean withdraw(double amount);
-
     // Feature 1: Check Balance
     public abstract void balance();
+
+    public double checkAmount(Scanner sc) {
+        System.out.println("AMOUNT:");
+        while (true) {
+            if (sc.hasNextDouble()) {
+                double amount = sc.nextDouble();
+                return amount; 
+            } else {
+                System.out.println("\n***INVALID AMOUNT***");
+                sc.next();
+            }
+        }
+    }
 
     // Feature 2: Deposit
     public void deposit(double amount) {
@@ -31,7 +44,7 @@ public abstract class BankAccount {
         } else {
             System.out.println("\n***INVALID AMOUNT***\n");
         }        
-    }
+    } 
      // Feature 4 (Customer): Withdraw
     public void withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
@@ -43,6 +56,27 @@ public abstract class BankAccount {
         }
     }
 
+    public void transfer(BankAccount targetAccount, double amount) {
+            balance -= amount;
+            history.add("Sent: -P" + amount);
+            targetAccount.balance += amount;
+            targetAccount.history.add("Received: +P" + amount);
+            System.out.println("\n***TRANSFER SUCCESS.***\n");
+            System.out.println("***YOUR UPDATED BALANCE: P" + this.getBalance() + "***\n");
+        /*if (validAmount(amount, balance)) {
+            balance -= amount;
+            history.add("Sent: -P" + amount);
+            targetAccount.balance += amount;
+            targetAccount.history.add("Received: +P" + amount);
+            System.out.println("\n***TRANSFER SUCCESS.***\n");
+            System.out.println("***YOUR UPDATED BALANCE: P" + this.getBalance() + "***\n");
+        } else {
+            System.out.println("\n***INSUFFICIENT FUNDS.***\n");
+        } */
+
+        // targetAccount.deposit(amount);
+        
+    }
     // Feature 3 (Customer): Transfer Money
     public void transferMoney(BankAccount targetAccount, double amount, String receiver, String sender) {
 
@@ -54,7 +88,7 @@ public abstract class BankAccount {
             targetAccount.history.add("Received: +P" + amount + " From: " + sender);
 
             System.out.println("\nYOU HAVE SUCCESSFULLY SENT P" + amount + " TO " + receiver);
-            System.out.println("YOUR UPDATED BALANCE: P" + this.balance);
+            balance();
         
         } else {
            
@@ -62,9 +96,6 @@ public abstract class BankAccount {
         }
     }
     
-
-
-   
 
     // Feature 5 (Customer): Transaction History
     public void showHistory(String name, String mobile) {
@@ -75,5 +106,25 @@ public abstract class BankAccount {
         System.out.println("Final Balance: P" + balance);
     }
 
-    
+
+    // ADMIN FEATURES
+    public void deposit(double amount, BankAccount targetAccount) {
+        if (amount > 0) {
+            balance += amount;
+            history.add("Admin Adjustment: +P" + amount);
+            balance();
+        } else {
+            System.out.println("\n***INVALID AMOUNT***\n");
+        }        
+    }
+
+    public void withdraw(double amount, BankAccount targetAccount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            history.add("Admin Adjustment: -P" + amount);
+            balance();
+        } else {
+            System.out.println("\n***INSUFFICIENT FUNDS.***\n");
+        }
+    }
 }
