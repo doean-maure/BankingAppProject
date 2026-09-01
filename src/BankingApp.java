@@ -1,5 +1,4 @@
 import com.bank.models.*;
-
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -17,11 +16,11 @@ public class BankingApp {
             if (user instanceof Customer) {
                Customer customer = (Customer) user;
                 if (customer.getId() == 1) {
-                customer.addAccount(new SavingsAccount("1-202644131001", 0));
-                customer.addAccount(new CheckingAccount("2-202644131001", 0));
+                customer.addAccount(new SavingsAccount("1202644131", 0));
+                customer.addAccount(new CheckingAccount("220264413", 0));
                } else {
-                customer.addAccount(new SavingsAccount("1-202632271002", 0));
-                customer.addAccount(new CheckingAccount("2-202632271002", 0));
+                customer.addAccount(new SavingsAccount("1202632271", 0));
+                customer.addAccount(new CheckingAccount("2202632271", 0));
                }
             }
          }
@@ -29,8 +28,6 @@ public class BankingApp {
         boolean cont = true;
         boolean loggedIn = false;
         Users authenticateUser = null;
-
-        BankingApp service = new BankingApp();
        
         // Login
         while (cont) {
@@ -61,52 +58,100 @@ public class BankingApp {
                 sc.nextLine();
             }
             
-            // User Logged In
-            while (loggedIn) {
+                // User Logged In
+                while (loggedIn) {
                 
-                double amount = 0.0;
-                
-                if (authenticateUser != null) {
-                    
-                    // Customer Menu
-                    if (authenticateUser instanceof Customer) { 
-                        Customer currentCustomer = (Customer) authenticateUser;
-                        System.out.println("\n------------------------------------------------------------");
-                        
-                        int choice = menu(sc, "\n1. Check Balance  2. Deposit  3. Withdraw  4. Transfer Money   5. History  6. Logout", "\n***INVALID INPUT***\n");
+                    if (authenticateUser != null) {
+
+                        BankingApp query = new BankingApp();
+
+                        // Customer Menu
+                        if (authenticateUser instanceof Customer) { 
+                            Customer currentCustomer = (Customer) authenticateUser;
+                            System.out.println("\n------------------------------------------------------------");
+
+                            int choice = menu(sc, "\n1. Check Balance  2. Deposit  3. Withdraw  4. Transfer Money   5. History  6. Logout", "\n***INVALID INPUT***\n");
                             
-                            switch (choice) {
-                                case 1:
-                                    currentCustomer.getAccounts();
-                                        for (BankAccount acc : currentCustomer.getAccounts()) {
-                                            acc.balance();
+                            if (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
+                                
+                                System.out.println("[1] - SAVINGS ACCOUNT");
+                                System.out.println("[2] - CHECKING ACCOUNT");
+                                
+                                BankAccount savings = null; 
+                                BankAccount checking = null; 
+
+                                for (BankAccount acc : currentCustomer.getAccounts()) {
+                                    
+                                    // Savings Account
+                                    if (acc instanceof SavingsAccount) {
+                                        String savingsAcct = acc.getAccountNumber();
+                                        if (acc.getAccountNumber().equals(savingsAcct)) {
+                                            savings = acc;
                                         }
-                                    break;
-                                case 2:
-                                    amount = amountInput(sc);
-                                    // currentCustomer.account.deposit(amount);
-                                    break;
-                                case 3:
-                                    amount = amountInput(sc);
-                                    // currentCustomer.account.withdraw(amount);
-                                    break;
-                                case 4:
-                                    Customer targetAccount = service.searchAccount(sc, userList);
-                                    try { 
-                                        // currentCustomer.account.transferMoney(targetAccount.account, amount, targetAccount.getName(), currentCustomer.getName());
-                                    }  catch (NullPointerException e) {
-                                        System.out.println("\n***ACCOUNT UNAVAILABLE***\n");
                                     }
-                                    break;
-                                case 5:
-                                    // currentCustomer.account.showHistory(currentCustomer.getName(), currentCustomer.getMobileNum());
-                                    break;
-                                case 6:
-                                    loggedIn = false;
-                                    break;
+                                    
+                                    // Checking Account
+                                    if (acc instanceof CheckingAccount) {
+                                        String checkingAcct = acc.getAccountNumber();
+                                        if (acc.getAccountNumber().equals(checkingAcct)) {
+                                            checking = acc;
+                                        }
+                                    }    
+                                                
+                                }
+                                
+                                int acctType = sc.nextInt(); 
+
+                                if (choice == 2 || choice == 3 || choice == 4) {
+
+                                    double amount = savings.checkAmount(sc);
+
+                                    if (acctType == 1) { // [1] - Savings Account Type
+
+                                            switch (choice) {
+                                                case 2: // Deposit
+                                                    savings.deposit(amount);
+                                                    break;
+                                                case 3: // Withdraw
+                                                    savings.withdraw(amount);
+                                                    break;
+                                                case 4: // Transfer
+                                                    BankAccount targetAccount = query.targetAccount(userList, sc); // account searching
+                                                    savings.transfer(targetAccount, amount);
+                                                default:
+                                                    break;
+                                            }
+
+                                        } if (acctType == 2) { // [2] - Checking Account Type
+
+                                            switch (choice) {
+                                                case 2: // Deposit
+                                                    checking.deposit(amount);
+                                                    break;
+                                                case 3: // Withdraw
+                                                    checking.withdraw(amount);
+                                                    break;
+                                                case 4: // Transfer
+                                                    BankAccount targetAccount = query.targetAccount(userList, sc); // account searching
+                                                    checking.transfer(targetAccount, amount);
+                                                default:
+                                                    break;
+                                            }
+                                        } else {
+                                            System.out.println("\n***INVALID INPUT***");
+                                        }     
+                                }
+                                
+                            } else if (choice == 5) { // History
+
+                            } else if (choice == 6) { // Logout
+                                loggedIn = false;
+                            } else {
+                                System.out.println("\n***INVALID INPUT***");
                             }
+                                
                         // Admin Menu        
-                    } else if (authenticateUser instanceof Admin) {
+                        } else if (authenticateUser instanceof Admin) {
 
                         Admin adminUser = (Admin) authenticateUser;
                         System.out.println("------------------------------------------------------------\n");
@@ -115,25 +160,23 @@ public class BankingApp {
                             
                         if (choice == 2 || choice == 3 || choice == 4) {
 
-                            Customer targetAccount = service.searchAccount(sc, userList);
+                            BankAccount targetAccount = query.targetAccount(userList, sc); // account searching
 
                             try {
 
                                 switch (choice) {
-                                    case 2:
-                                        adminUser.view(targetAccount);
+                                    case 2: 
+                                        adminUser.viewAcc(userList, targetAccount);
                                         break;
-                                    case 3: 
-                                        amount = amountInput(sc);
-                                        // targetAccount.account.deposit(amount);   
+                                    case 3:
+                                        targetAccount.deposit(sc.nextDouble(), targetAccount);  
                                         break;
                                     case 4:
-                                        amount = amountInput(sc);
-                                        // targetAccount.account.withdraw(amount);
+                                        targetAccount.withdraw(sc.nextDouble(), targetAccount);
                                         break;
                                 }
                             } catch (NullPointerException e) {
-                                System.out.println("\n***ACCOUNT UNAVAILABLE***\n");
+                                System.out.println("\n***NO ACCOUNT FOUND.***\n");
                             }
 
                         } else {
@@ -146,16 +189,18 @@ public class BankingApp {
                                     break;
                             }
                         }
-                    }      
+                    }     
+                //    sc.nextLine(); 
                 }  
-            }
+            
+                }
+            
         }
     }
-    
+
    
     
-    
-    
+    // User's Menu
     public static int menu(Scanner sc, String prompt, String errorMsg) {
         while (true) {
             System.out.println(prompt);
@@ -168,44 +213,34 @@ public class BankingApp {
                 System.out.println(errorMsg);
                 sc.nextLine(); 
             } 
-            
         }
     }
 
-    public static double amountInput(Scanner sc) {
-        while (true) {
-            System.out.println("AMOUNT:");
-            if (sc.hasNextDouble()) {
-                double amount = sc.nextDouble();
-                sc.nextLine();
-                return amount;
-            } else {
-                System.out.println("\n***INVALID AMOUNT***\n");
-                sc.nextLine(); 
-            } 
-        }
-    }
     
-    
-    
-    public Customer searchAccount(Scanner sc, List<Users> userList) {
-        
-        Customer targetAccount = null; 
-        
-        System.out.println("MOBILE NUMBER:");
-        String mobile = sc.next();
-        
-        for (Users user : userList) {
-            if (user.getMobileNum().equals(mobile)) {
-                if (user instanceof Customer) {
-                    targetAccount = (Customer) user;
-                } 
-            } 
-            
-        }
+    // Search bank account
+    public BankAccount targetAccount(List<Users> userList, Scanner sc) {
 
+        BankAccount targetAccount = null; 
+        String acctNum = sc.next();
+
+        for (Users users : userList) {
+            if (users instanceof Customer) {
+                Customer customers = ((Customer)users);
+                // System.out.println(customers.getAccounts());
+                
+                for (BankAccount acc : customers.getAccounts()) {
+                    if (acc.getAccountNumber().equals(acctNum)) {
+                        targetAccount = acc; 
+                    } 
+                }
+            } 
+        }
+        if (targetAccount == null) {
+            System.out.println("\n***INVALID ACCOUNT***");        
+        }
         return targetAccount;
-    }    
+    }
+     
 }
 
 
