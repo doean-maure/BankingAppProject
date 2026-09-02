@@ -34,11 +34,11 @@ public class BankingApp {
             Scanner sc = new Scanner(System.in);
             System.out.println("\nACCOUNT LOGIN\n");
             System.out.println("MOBILE NUMBER:");
-            String mobileInput = "09068845641";
+            String mobileInput = sc.next();
             
             try {      
                 System.out.println("PIN:");
-                int pinInput = 3392;
+                int pinInput = sc.nextInt();
                 
                 // Authenticate User
                 for (Users u : userList) { 
@@ -71,7 +71,7 @@ public class BankingApp {
                             System.out.println("\n------------------------------------------------------------");
 
                             int choice = menu(sc, "\n1. Check Balance  2. Deposit  3. Withdraw  4. Transfer Money   5. History  6. Logout", "\n***INVALID INPUT***\n");
-                            
+                        
                             if (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
                                 
                                 System.out.println("[1] - SAVINGS ACCOUNT");
@@ -140,6 +140,12 @@ public class BankingApp {
                                         } else {
                                             System.out.println("\n***INVALID INPUT***");
                                         }     
+                                } else if (choice == 1 && acctType == 1) {
+                                    System.out.println(savings.getAccountType());
+                                    System.out.println(savings.getBalance());
+                                } else if (choice == 1 && acctType == 2){
+                                    System.out.println(checking.getAccountType());
+                                    System.out.println(checking.getBalance());
                                 }
                                 
                             } else if (choice == 5) { // History
