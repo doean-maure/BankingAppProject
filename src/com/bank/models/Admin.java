@@ -18,18 +18,12 @@ public class Admin extends Users{
             if (user instanceof Customer) {
                 Customer customer = (Customer) user;
                 for (BankAccount acc : customer.getAccounts()) { 
-                    if (acc instanceof SavingsAccount) {
-                        System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
-                    } else {
-                        System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t" + acc.getAccountNumber() + "\t\t" + acc.balance);
-                    }
+                    System.out.println(customer.name + "\t" + acc.getAccountType() + acc.getAccountNumber() + "\t\t" + acc.balance);
                 }
             }
         }
         
     }
-
-    
 
     // Viewing of Specific Account
     public void viewAcc(List<Users> userList, BankAccount targetAccount) {
@@ -42,13 +36,7 @@ public class Admin extends Users{
                 Customer customer = ((Customer)users);
                 for (BankAccount account : customer.getAccounts()) {
                     if (account.getAccountNumber().equals(targetAccount.getAccountNumber())) {
-                        if (account instanceof SavingsAccount) {
-                            System.out.println(customer.name + "\t" + "SAVINGS ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance); 
-                        } else if (account instanceof CheckingAccount) {
-                            System.out.println(customer.name + "\t" + "CHECKING ACCOUNT\t\t" + account.getAccountNumber() + "\t\t" + account.balance);
-                        } else {
-                            System.out.println("\n***NO ACCOUNT FOUND.***\n");
-                        }
+                        System.out.println(customer.getName() + "\t" + account.getAccountType() + "\t\t" + account.getAccountNumber() + "\t\t" + account.getBalance());
                     }     
                 }
             } 
