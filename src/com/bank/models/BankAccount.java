@@ -1,6 +1,5 @@
 package com.bank.models;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class BankAccount {
@@ -17,10 +16,10 @@ public abstract class BankAccount {
 
     // Getters
     public String getAccountNumber() { return accountNumber; }
-    public double getBalance() { return balance; }
+    public double getBalance() { return this.balance; }
 
-    // Feature 1: Check Balance
-    public abstract void balance();
+    // Polymorphic Method
+    public abstract String getAccountType();    
 
     public double checkAmount(Scanner sc) {
         System.out.println("AMOUNT:");
@@ -36,21 +35,30 @@ public abstract class BankAccount {
     }
 
     // Feature 2: Deposit
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            history.add("Deposit: +P" + amount);
-            balance();
+    public boolean deposit(double amount) {
+        if (amount <= 0 ) {
+            return false;
         } else {
-            System.out.println("\n***INVALID AMOUNT***\n");
-        }        
-    } 
+            this.balance += amount;
+            history.add("Deposit: +P" + amount);
+            return true;
+        }
+    }
+    // public void deposit(double amount) {
+    //     if (amount > 0) {
+    //         balance += amount;
+    //         history.add("Deposit: +P" + amount);
+    //         balance();
+    //     } else {
+    //         System.out.println("\n***INVALID AMOUNT***\n");
+    //     }        
+    // } 
      // Feature 4 (Customer): Withdraw
     public void withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
             history.add("Withdrew: -P" + amount);
-            balance();
+            // balance();
         } else {
             System.out.println("\n***INSUFFICIENT FUNDS.***\n");
         }
@@ -88,7 +96,7 @@ public abstract class BankAccount {
             targetAccount.history.add("Received: +P" + amount + " From: " + sender);
 
             System.out.println("\nYOU HAVE SUCCESSFULLY SENT P" + amount + " TO " + receiver);
-            balance();
+            // balance();
         
         } else {
            
@@ -112,7 +120,7 @@ public abstract class BankAccount {
         if (amount > 0) {
             balance += amount;
             history.add("Admin Adjustment: +P" + amount);
-            balance();
+            // balance();
         } else {
             System.out.println("\n***INVALID AMOUNT***\n");
         }        
@@ -122,7 +130,7 @@ public abstract class BankAccount {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
             history.add("Admin Adjustment: -P" + amount);
-            balance();
+            // balance();
         } else {
             System.out.println("\n***INSUFFICIENT FUNDS.***\n");
         }

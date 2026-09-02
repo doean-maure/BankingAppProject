@@ -7,10 +7,11 @@ public class CheckingAccount extends BankAccount {
         super(accountNumner, initialBalance);
 
         this.balance = MIN_BALANCE;
-        
     }
 
-     public void balance() {
-        System.out.println("\nCHECKING ACCOUNT BALANCE: P" + balance);
+    public String getAccountType() {
+        return "CHECKING ACCOUNT";
     }
+
+    
 }

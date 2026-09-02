@@ -8,9 +8,10 @@ public class SavingsAccount extends BankAccount {
 
         this.balance = MIN_BALANCE;
     }
-
-    public void balance() {
-        System.out.println("\nSAVINGS ACCOUNT BALANCE: P" + balance);
+    
+    public String getAccountType() {
+        return "SAVINGS ACCOUNT";
     }
 
+    
 }
