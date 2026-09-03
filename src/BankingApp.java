@@ -1,11 +1,19 @@
 import com.bank.models.*;
-import java.util.InputMismatchException;
+import com.bank.views.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class BankingApp {
+
+    private final InputHandler input = new InputHandler();
+    private final ConsoleView view = new ConsoleView();
+    
     public static void main(String[] args) {
-        
+        BankingApp app = new BankingApp();
+        app.start(); 
+    }
+    
+    public void start() {
+
         List<Users> userList = List.of(
             new Admin(0, "09068845641", 3392, "PAT PILAR"),
             new Customer(1, "09239834413", 1423, "DEN DEGUZMAN"),
@@ -31,31 +39,20 @@ public class BankingApp {
        
         // Login
         while (cont) {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("\nACCOUNT LOGIN\n");
-            System.out.println("MOBILE NUMBER:");
-            String mobileInput = sc.next();
-            
-            try {      
-                System.out.println("PIN:");
-                int pinInput = sc.nextInt();
-                
-                // Authenticate User
-                for (Users u : userList) { 
-                    if (u.getMobileNum().equals(mobileInput) && u.getPin() == pinInput) {
-                        authenticateUser = u;
-                        loggedIn = true;
-                        break;
-                    } 
-                }
+            view.displayHeader("ACCOUNT LOGIN.");
+            String mobileInput = input.readString("MOBILE NUMBER");
+            int pinInput = input.readInt("PIN");
 
-                if (!loggedIn) {
-                    throw new InputMismatchException();
-                }
+            for (Users u : userList) { 
+                if (u.getMobileNum().equals(mobileInput) && u.getPin() == pinInput) {
+                    authenticateUser = u;
+                    loggedIn = true;
+                    break;
+                } 
+            }
 
-            } catch (InputMismatchException e) { 
-                System.out.println("\n***INCORRECT MOBILE NUMBER OR PIN.***\n");
-                sc.nextLine();
+            if (!loggedIn) {
+                view.displayErrorMessage("INCORRECT MOBILE NUMBER OR PIN.");
             }
             
                 // User Logged In
@@ -68,14 +65,10 @@ public class BankingApp {
                         // Customer Menu
                         if (authenticateUser instanceof Customer) { 
                             Customer currentCustomer = (Customer) authenticateUser;
-                            System.out.println("\n------------------------------------------------------------");
-
-                            int choice = menu(sc, "\n1. Check Balance  2. Deposit  3. Withdraw  4. Transfer Money   5. History  6. Logout", "\n***INVALID INPUT***\n");
-                        
+                            view.displayHeader("1. Check Balance  2. Deposit  3. Withdraw  4. Transfer Money   5. History  6. Logout");
+                            int choice = input.readInt("CHOICE");
+                            
                             if (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
-                                
-                                System.out.println("[1] - SAVINGS ACCOUNT");
-                                System.out.println("[2] - CHECKING ACCOUNT");
                                 
                                 BankAccount savings = null; 
                                 BankAccount checking = null; 
@@ -100,11 +93,11 @@ public class BankingApp {
                                                 
                                 }
                                 
-                                int acctType = sc.nextInt(); 
+                                int acctType = input.readInt("[1]SAVINGS ACCOUNT - [2]CHECKING ACCOUNT"); 
 
                                 if (choice == 2 || choice == 3 || choice == 4) {
 
-                                    double amount = savings.checkAmount(sc);
+                                    double amount = input.readDouble("AMOUNT");
 
                                     if (acctType == 1) { // [1] - Savings Account Type
 
@@ -116,8 +109,13 @@ public class BankingApp {
                                                     savings.withdraw(amount);
                                                     break;
                                                 case 4: // Transfer
-                                                    BankAccount targetAccount = query.targetAccount(userList, sc); // account searching
-                                                    savings.transfer(targetAccount, amount);
+                                                    try {
+                                                        String mobileInputTarget = input.readString("MOBILE NUMBER");
+                                                        BankAccount targetAccount = query.targetAccount(userList, mobileInputTarget); // account searching
+                                                        savings.transfer(targetAccount, amount);
+                                                    } catch (NullPointerException e) {
+                                                        view.displayErrorMessage("INVALID ACCOUNT.");
+                                                    }
                                                 default:
                                                     break;
                                             }
@@ -132,19 +130,22 @@ public class BankingApp {
                                                     checking.withdraw(amount);
                                                     break;
                                                 case 4: // Transfer
-                                                    BankAccount targetAccount = query.targetAccount(userList, sc); // account searching
-                                                    checking.transfer(targetAccount, amount);
+                                                    try {
+                                                        String mobileInputTarget = input.readString("MOBILE NUMBER");
+                                                        BankAccount targetAccount = query.targetAccount(userList, mobileInputTarget); // account searching
+                                                        checking.transfer(targetAccount, amount);
+                                                    } catch (NullPointerException e) {
+                                                        view.displayErrorMessage("INVALID ACCOUNT.");
+                                                    }
                                                 default:
                                                     break;
                                             }
-                                        } else {
-                                            System.out.println("\n***INVALID INPUT***");
-                                        }     
+                                        }    
                                 } else if (choice == 1 && acctType == 1) {
-                                    System.out.println(savings.getAccountType());
+                                    view.displayMessage(savings.getAccountType());
                                     System.out.println(savings.getBalance());
                                 } else if (choice == 1 && acctType == 2){
-                                    System.out.println(checking.getAccountType());
+                                    view.displayMessage(checking.getAccountType());
                                     System.out.println(checking.getBalance());
                                 }
                                 
@@ -152,21 +153,19 @@ public class BankingApp {
 
                             } else if (choice == 6) { // Logout
                                 loggedIn = false;
-                            } else {
-                                System.out.println("\n***INVALID INPUT***");
                             }
                                 
                         // Admin Menu        
                         } else if (authenticateUser instanceof Admin) {
 
                         Admin adminUser = (Admin) authenticateUser;
-                        System.out.println("------------------------------------------------------------\n");
-                    
-                        int choice = menu(sc, "\n1. View All Balance   2. View Specific Account   3. Add Fund   4. Deduct Fund   5. Logout\n", "\n***INVALID INPUT***\n");
-                            
+                        view.displayHeader("1. View All Balance   2. View Specific Account   3. Add Fund   4. Deduct Fund   5. Logout");
+                        int choice = input.readInt("CHOICE");
+                                                
                         if (choice == 2 || choice == 3 || choice == 4) {
 
-                            BankAccount targetAccount = query.targetAccount(userList, sc); // account searching
+                            String mobileInputTarget = input.readString("MOBILE NUMBER");
+                            BankAccount targetAccount = query.targetAccount(userList, mobileInputTarget); // account searching
 
                             try {
 
@@ -175,14 +174,14 @@ public class BankingApp {
                                         adminUser.viewAcc(userList, targetAccount);
                                         break;
                                     case 3:
-                                        targetAccount.deposit(sc.nextDouble(), targetAccount);  
+                                        targetAccount.deposit(input.readDouble("AMOUNT"), targetAccount);  
                                         break;
                                     case 4:
-                                        targetAccount.withdraw(sc.nextDouble(), targetAccount);
+                                        targetAccount.withdraw(input.readDouble("AMOUNT"), targetAccount);
                                         break;
                                 }
                             } catch (NullPointerException e) {
-                                System.out.println("\n***NO ACCOUNT FOUND.***\n");
+                                view.displayErrorMessage("NO ACCOUNT FOUND.");
                             }
 
                         } else {
@@ -196,54 +195,29 @@ public class BankingApp {
                             }
                         }
                     }     
-                //    sc.nextLine(); 
                 }  
             
-                }
+            }
             
-        }
+        } 
     }
-
-   
-    
-    // User's Menu
-    public static int menu(Scanner sc, String prompt, String errorMsg) {
-        while (true) {
-            System.out.println(prompt);
-            System.out.println("CHOICE:");
-            if (sc.hasNextInt()) {
-                int choice = sc.nextInt();
-                sc.nextLine();
-                return choice;
-            } else {
-                System.out.println(errorMsg);
-                sc.nextLine(); 
-            } 
-        }
-    }
-
     
     // Search bank account
-    public BankAccount targetAccount(List<Users> userList, Scanner sc) {
+    public BankAccount targetAccount(List<Users> userList, String mobileInputTarget) {
 
         BankAccount targetAccount = null; 
-        String acctNum = sc.next();
 
         for (Users users : userList) {
             if (users instanceof Customer) {
                 Customer customers = ((Customer)users);
-                // System.out.println(customers.getAccounts());
-                
                 for (BankAccount acc : customers.getAccounts()) {
-                    if (acc.getAccountNumber().equals(acctNum)) {
+                    if (acc.getAccountNumber().equals(mobileInputTarget)) {
                         targetAccount = acc; 
                     } 
                 }
-            } 
+            }
         }
-        if (targetAccount == null) {
-            System.out.println("\n***INVALID ACCOUNT***");        
-        }
+
         return targetAccount;
     }
      
