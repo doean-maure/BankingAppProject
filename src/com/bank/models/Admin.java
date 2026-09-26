@@ -1,13 +1,24 @@
 package com.bank.models;
 
 import java.util.List;
+import com.bank.views.ConsoleView;
 
 public class Admin extends Users{
 
-   public BankAccount accounts;
+    public BankAccount accounts;
+    private final ConsoleView view = new ConsoleView();
 
     public Admin(int id, String mobileNum, int pin, String name) {
         super(id, mobileNum, pin, name);
+    }
+
+    // Role
+    public String getRole() { return "ADMIN"; }
+
+    public void openDashboard() {
+        System.out.println("\nOpening Admin Menu for " + getName());  
+        view.displayHeader("1. View All Balance   2. View Specific Account   3. Add Fund   4. Deduct Fund   5. Logout");
+
     }
 
     // Viewing of All Accounts
@@ -22,7 +33,6 @@ public class Admin extends Users{
                 }
             }
         }
-        
     }
 
     // Viewing of Specific Account
