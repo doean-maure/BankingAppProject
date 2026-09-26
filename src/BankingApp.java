@@ -1,4 +1,6 @@
 import com.bank.models.*;
+import com.bank.repository.InMemoryUserRepository;
+import com.bank.repository.UserRepository;
 import com.bank.views.*;
 import java.util.List;
 
@@ -6,6 +8,7 @@ public class BankingApp {
 
     private final InputHandler input = new InputHandler();
     private final ConsoleView view = new ConsoleView();
+    UserRepository userRepo = new InMemoryUserRepository();
     
     public static void main(String[] args) {
         BankingApp app = new BankingApp();
@@ -13,7 +16,7 @@ public class BankingApp {
     }
     
     public void start() {
-
+        /* 
         List<Users> userList = List.of(
             new Admin(0, "09068845641", 3392, "PAT PILAR"),
             new Customer(1, "09239834413", 1423, "DEN DEGUZMAN"),
@@ -32,25 +35,65 @@ public class BankingApp {
                }
             }
          }
+        */    
 
         boolean cont = true;
-        boolean loggedIn = false;
-        Users authenticateUser = null;
+        boolean loggedIn = false;        
        
         // Login
-        while (cont) {
+        while (true) {
             view.displayHeader("ACCOUNT LOGIN.");
             String mobileInput = input.readString("MOBILE NUMBER");
             int pinInput = input.readInt("PIN");
+        
+            Users authenticateUser = userRepo.findByMobileAndPin(mobileInput, pinInput);
+            
+            
 
+            // BankAccount savings = customer.getAccountByType("SAVINGS ACCOUNT");
+            // BankAccount checking = customer.getAccountByType("CHECKING ACCOUNT");
+                
+            
+            if (authenticateUser != null) {
+                
+                    authenticateUser.openDashboard();
+                    Customer customer = (Customer) authenticateUser;
+                    int choice = input.readInt("CHOICE");
+                    
+                    switch (choice) {
+                        case 1:
+                            
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                    // customerController.showMenu(customer);
+                        
+                
+                    
+                
+                
+                
+            } else {
+                view.displayErrorMessage("INCORRECT MOBILE NUMBER OR PIN.");
+            }
+            
+            // authenticateUser.getRole().equalsIgnoreCase("CUSTOMER");    
+            // authenticateUser.getRole().equalsIgnoreCase("ADMIN");    
+        
+              
+            
+            /* 
             for (Users u : userList) { 
                 if (u.getMobileNum().equals(mobileInput) && u.getPin() == pinInput) {
                     authenticateUser = u;
                     loggedIn = true;
                     break;
                 } 
-            }
+            } 
 
+                
             if (!loggedIn) {
                 view.displayErrorMessage("INCORRECT MOBILE NUMBER OR PIN.");
             }
@@ -67,11 +110,15 @@ public class BankingApp {
                             Customer currentCustomer = (Customer) authenticateUser;
                             view.displayHeader("1. Check Balance  2. Deposit  3. Withdraw  4. Transfer Money   5. History  6. Logout");
                             int choice = input.readInt("CHOICE");
+
+                            BankAccount savings = currentCustomer.getAccountByType("SAVINGS ACCOUNT");
+                            BankAccount checking = currentCustomer.getAccountByType("CHECKING ACCOUNT");
+
                             
                             if (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
                                 
-                                BankAccount savings = null; 
-                                BankAccount checking = null; 
+                                // BankAccount savings = null; 
+                                // BankAccount checking = null; 
 
                                 for (BankAccount acc : currentCustomer.getAccounts()) {
                                     
@@ -154,6 +201,7 @@ public class BankingApp {
                             } else if (choice == 6) { // Logout
                                 loggedIn = false;
                             }
+                            
                                 
                         // Admin Menu        
                         } else if (authenticateUser instanceof Admin) {
@@ -196,9 +244,10 @@ public class BankingApp {
                         }
                     }     
                 }  
-            
+                
+                
             }
-            
+            */
         } 
     }
     
