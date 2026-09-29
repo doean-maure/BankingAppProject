@@ -14,7 +14,6 @@ public class Customer extends Users {
     public void addAccount(BankAccount account) {
         this.accounts.add(account);
     }
-
     
     // Getters
     public String getRole() { return "CUSTOMER"; }

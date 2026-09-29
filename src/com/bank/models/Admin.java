@@ -9,7 +9,7 @@ public class Admin extends Users{
     public Admin(int id, String mobileNum, int pin, String name) {
         super(id, mobileNum, pin, name);
     }
-
+    
     // Viewing of All Accounts
     public void viewAll(List<Users> userList) {
         System.out.println("\nCUSTOMER ACCOUNTS:\n");
@@ -43,4 +43,7 @@ public class Admin extends Users{
         }
         
     }
+    
+    // Getter
+    public String getRole() { return "ADMIN"; }
 }

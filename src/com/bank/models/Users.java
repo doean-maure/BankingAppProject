@@ -1,6 +1,6 @@
 package com.bank.models;
 
-public class Users {
+public abstract class Users {
     int id;
     String mobileNum;
     int pin;
@@ -13,6 +13,9 @@ public class Users {
         this.pin = pin;
         this.name = name;
     }
+
+    // Abstract method
+    public abstract String getRole();
 
     //Getters
     public int getId() { return id; }
