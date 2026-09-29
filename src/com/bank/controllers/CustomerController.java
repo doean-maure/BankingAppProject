@@ -25,7 +25,8 @@ public class CustomerController {
         customerMenu.addCommand(2, new DepositCommand(customer, input, view));
         customerMenu.addCommand(3, new WithdrawCommand(customer, input, view));
         customerMenu.addCommand(4, new TransferCommand(customer, input, view, userRepository));
-                        
+        customerMenu.addCommand(5, new TransactionHistoryCommand(customer, input, view));          
+
         // Start menu execution
         customerMenu.runMenu("CUSTOMER DASHBOARD - " + customer.getName());
     }

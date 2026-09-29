@@ -10,7 +10,7 @@ public abstract class BankAccount {
         this.accountNumber = accountNumner;
         this.balance = initialBalance;
         this.history = new ArrayList<>();
-        this.history.add("Account opened with P" + balance);
+        this.history.add("Account opened with P" + initialBalance + "\n");
     }
 
     // Getters
@@ -24,7 +24,7 @@ public abstract class BankAccount {
     public boolean deposit(double amount) {
         if (amount > 0 ) {
             this.balance += amount;
-            history.add("Deposit: +P" + amount);
+            history.add("Deposit: \t+P" + amount);
             return true;
         } else {
             return false;
@@ -35,7 +35,7 @@ public abstract class BankAccount {
     public boolean withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
-            history.add("Withdrew: -P" + amount);
+            history.add("Withdrew: \t-P" + amount);
             return true;
         } else {
             return false;
@@ -46,9 +46,9 @@ public abstract class BankAccount {
     public boolean transfer(BankAccount targetAccount, double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
-            history.add("Sent: -P" + amount);
+            history.add("Sent: \t-P" + amount);
             targetAccount.balance += amount;
-            targetAccount.history.add("Received: +P" + amount);
+            targetAccount.history.add("Received: \t+P" + amount);
             return true;
         } else {
             return false;
@@ -56,12 +56,10 @@ public abstract class BankAccount {
     }
 
     // Feature: Show History
-    public void showHistory(String name, String mobile) {
-        System.out.println(name + "\t" + mobile + "\n");
+    public void history() {
         for (String record : history) {
             System.out.println(record);
         }
-        System.out.println("Final Balance: P" + balance);
     }
 
 
