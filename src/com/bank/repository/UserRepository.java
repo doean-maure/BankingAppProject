@@ -12,6 +12,7 @@ public interface UserRepository {
     // Customer findCustomerByMobile(String mobile);
     BankAccount findCustomerByAccount(String acctNumber);
     List<Users> getAllUsers();
+    // void saveUser(Users user);
     List<Customer> getAllCustomers();
     List<Admin> getAllAdmins();
     
