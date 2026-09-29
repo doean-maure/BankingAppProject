@@ -15,13 +15,13 @@ public class InMemoryUserRepository implements  UserRepository {
         users.add(new Admin(0, "09068845641", 3392, "PAT PILAR"));
 
         Customer customer1 = new Customer(1, "09239834413", 1423, "DEN DEGUZMAN");
-        customer1.addAccount(new SavingsAccount(null, 0));
-        customer1.addAccount(new CheckingAccount(null, 0));
+        customer1.addAccount(new SavingsAccount("1202644131", 0));
+        customer1.addAccount(new CheckingAccount("220264413", 0));
         users.add(customer1);
 
         Customer customer2 = new Customer(2, "09997843277", 9628, "GIL MAURE");
-        customer2.addAccount(new SavingsAccount(null, 0));
-        customer2.addAccount(new CheckingAccount(null, 0));
+        customer2.addAccount(new SavingsAccount("1202632271", 0));
+        customer2.addAccount(new CheckingAccount("2202632271", 0));
         users.add(customer2);
     }
         
@@ -34,6 +34,20 @@ public class InMemoryUserRepository implements  UserRepository {
         return null;
     }
 
+    public BankAccount findCustomerByAccount(String acctNumber) {
+        for (Users u : users) {
+            if (u instanceof Customer) {
+                Customer customer = (Customer) u;
+                for (BankAccount account : customer.getAccounts()) {
+                    if (account.getAccountNumber().equals(acctNumber)) {
+                        return account;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
     public List<Users> getAllUsers() {
         List<Users> users = new ArrayList<>();
         return users;
