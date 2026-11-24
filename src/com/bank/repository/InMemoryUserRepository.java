@@ -16,7 +16,7 @@ public class InMemoryUserRepository implements  UserRepository {
 
         Customer customer1 = new Customer(1, "09239834413", 1423, "DEN DEGUZMAN");
         customer1.addAccount(new SavingsAccount("1202644131", 100));
-        customer1.addAccount(new CheckingAccount("220264413", 100));
+        customer1.addAccount(new CheckingAccount("1220264413", 100));
         users.add(customer1);
 
         Customer customer2 = new Customer(2, "09997843277", 9628, "GIL MAURE");
