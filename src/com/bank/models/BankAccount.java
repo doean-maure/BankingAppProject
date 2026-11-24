@@ -20,67 +20,67 @@ public abstract class BankAccount {
     // Polymorphic Method
     public abstract String getAccountType();    
 
-    // Feature: Deposit Funds
-    public boolean deposit(double amount) {
-        if (amount > 0 ) {
-            this.balance += amount;
-            history.add("Deposit: \t+P" + amount);
-            return true;
-        } else {
+    // Bank logic
+    public boolean credit(double amount, String historyLabel) {
+        if (amount <= 0) {
             return false;
         }
+        this.balance += amount;
+        history.add(historyLabel +": \t+P" + amount);
+        return true;
     }
     
-     // Feature: Withdraw Funds
+    public boolean debit(double amount, String historyLabel) {
+        if (amount <= 0 || amount > balance) {
+            return false;
+        }
+        this.balance -= amount;
+        history.add(historyLabel +": \t-P" + amount);
+        return true;
+    }
+
+    // Customer - Deposit
+    public boolean deposit(double amount) {
+        return credit(amount, "Deposit");
+    }
+
+    // Customer - Withdraw
     public boolean withdraw(double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            history.add("Withdrew: \t-P" + amount);
-            return true;
-        } else {
-            return false;
-        }
+        return debit(amount, "Withdrew");
     }
 
-    // Feature: Transfer Funds
+    // Customer - Transfer
     public boolean transfer(BankAccount targetAccount, double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            history.add("Sent: \t-P" + amount);
-            targetAccount.balance += amount;
-            targetAccount.history.add("Received: \t+P" + amount);
-            return true;
-        } else {
+        if (amount <=0 || targetAccount == null || targetAccount == this) {
             return false;
         }
+        if (!this.debit(amount, "Sent")) {
+            return false;
+        }
+       targetAccount.credit(amount, "Received");
+       return true; 
     }
 
-    // Feature: Show History
+    // Customer - Transaction History
     public void history() {
         for (String record : history) {
             System.out.println(record);
         }
     }
 
-
-    // ADMIN FEATURES
-    public void deposit(double amount, BankAccount targetAccount) {
-        if (amount > 0) {
-            balance += amount;
-            history.add("Admin Adjustment: +P" + amount);
-            // balance();
-        } else {
-            System.out.println("\n***INVALID AMOUNT***\n");
-        }        
+    // Admin - Add funds
+    public boolean addFunds(double amount) {
+        return credit(amount, "Admin Add Funds");
+    }
+    // Admin - Deduct funds
+    public boolean deductFunds(double amount) {
+        return debit(amount, "Admin Deduct Funds");
     }
 
-    public void withdraw(double amount, BankAccount targetAccount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            history.add("Admin Adjustment: -P" + amount);
-            // balance();
-        } else {
-            System.out.println("\n***INSUFFICIENT FUNDS.***\n");
-        }
-    }
+    
+    
+    
+
+    
 }
+
