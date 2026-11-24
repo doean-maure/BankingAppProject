@@ -1,3 +1,4 @@
+import com.bank.controllers.AdminController;
 import com.bank.controllers.CustomerController;
 import com.bank.models.*;
 import com.bank.repository.InMemoryUserRepository;
@@ -27,12 +28,13 @@ public class BankingApp {
             Users authenticateUser = userRepository.findByMobileAndPin(mobileInput, pinInput);
             
             CustomerController customerController = new CustomerController(input, view, userRepository);
-            
+            AdminController adminController = new AdminController(input, view, userRepository);
+
             if (authenticateUser != null) {
                 if ("CUSTOMER".equalsIgnoreCase(authenticateUser.getRole())) {
                     customerController.startSession((Customer)authenticateUser);
                 } else if ("ADMIN".equalsIgnoreCase(authenticateUser.getRole())) {
-
+                    adminController.startSession((Admin)authenticateUser);
                 }
             } else {
                 view.displayErrorMessage("INCORRECT MOBILE NUMBER OR PIN.");
