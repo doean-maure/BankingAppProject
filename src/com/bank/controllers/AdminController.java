@@ -21,7 +21,7 @@ public class AdminController {
         MenuController adminMenu = new MenuController(input, view);
         
         // Add options directy to command
-        adminMenu.addCommand(1, new Admin_ViewCustomersCommand(input, view, userRepository));
+        adminMenu.addCommand(1, new Admin_ViewCustomersCommand(view, userRepository));
         adminMenu.addCommand(2, new Admin_SearchCustomerCommand(input, view, userRepository));
         adminMenu.addCommand(3, new Admin_AddFundsCommand(input, view, userRepository));
         adminMenu.addCommand(4, new Admin_DeductFundsCommand(input, view, userRepository));

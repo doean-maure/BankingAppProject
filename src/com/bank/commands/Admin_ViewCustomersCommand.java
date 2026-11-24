@@ -2,15 +2,12 @@ package com.bank.commands;
 
 import com.bank.repository.UserRepository;
 import com.bank.views.ConsoleView;
-import com.bank.views.InputHandler;
 
 public class Admin_ViewCustomersCommand implements Command {
-    private final InputHandler input;
     private final ConsoleView view;
     private final UserRepository userRepository;
 
-    public Admin_ViewCustomersCommand(InputHandler input, ConsoleView view, UserRepository userRepository) {
-        this.input = input;
+    public Admin_ViewCustomersCommand(ConsoleView view, UserRepository userRepository) {
         this.view = view;
         this.userRepository = userRepository;
     }
