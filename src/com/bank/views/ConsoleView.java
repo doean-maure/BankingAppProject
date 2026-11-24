@@ -21,7 +21,7 @@ public class ConsoleView {
         System.out.println("------------------------------------------------------------");
     }
 
-    public void displayCustomerAccounts(List<Customer> customers) {
+    public void displayAllCustomer(List<Customer> customers) {
         for (Customer customer : customers) {
             for (BankAccount account : customer.getAccounts()) {
                 System.out.println(customer.getName() + "\t" + account.getAccountNumber() + "\tP" + account.getBalance());
@@ -29,4 +29,13 @@ public class ConsoleView {
         }
     }
 
+    public void displayCustomer(List<Customer> customers, BankAccount targetAccount) { 
+        for (Customer customer : customers) {
+           for (BankAccount account : customer.getAccounts()) {
+                if (account.getAccountNumber().equals(targetAccount.getAccountNumber())) {
+                    System.out.println(customer.getName() + "\t" + targetAccount.getAccountNumber() + "\tP" + targetAccount.getBalance()); 
+                }
+            }
+        }
+    }
 }
